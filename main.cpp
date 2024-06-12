@@ -1,14 +1,15 @@
-#include <iostream>  
-#include <string>
 #include "functions.cpp"
 #include "functions.hpp"
+#include <iostream>
+#include <string>
 
-
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   const std::string secondArg = argv[1];
 
-  std::string command = makeCommandFunction(argc, secondArg);
-  std::cout<<"Command: "<<command<<std::endl;
+  std::string command = makeCommand(argc, secondArg);
+  system(command.c_str());
 
- return 0;
+  std::cout << std::endl;
+  std::cout << "Execution file created!" << std::endl;
+  return 0;
 }

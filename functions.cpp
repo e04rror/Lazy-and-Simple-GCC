@@ -1,6 +1,6 @@
-#include <iostream>
 #include "functions.hpp"
 #include <cstdlib>
+#include <iostream>
 #include <string>
 
 std::string
@@ -36,7 +36,7 @@ std::string createExecutionFile(const std::string &argv,
 
 std::pair<std::string, std::string>
 determineAndCreateExeFileAndExtension(const std::string &argv) {
-  // Need to create exception handle 
+  // Need to create exception handle
   std::string whatTypeIs = checkFileExtension(argv, C_EXTENSION);
   std::string executionNameFile;
   if (whatTypeIs.empty()) {
@@ -49,16 +49,17 @@ determineAndCreateExeFileAndExtension(const std::string &argv) {
   return {whatTypeIs, executionNameFile};
 }
 
-std::string makeCommandFunction(int argc,const std::string& argv) {
+std::string makeCommand(int argc, const std::string &argv) {
   // At first, I want my program take only two arguments(I mean kind like test)
-  if(argc != MAX_AMOUNT_OF_ARGUMENTS) {
-    std::cerr<<"Amount of arguments must be 2!"<<std::endl;
-    return "";  
+  if (argc != MAX_AMOUNT_OF_ARGUMENTS) {
+    std::cerr << "Amount of arguments must be 2!" << std::endl;
+    return "";
   }
 
   auto extensionAndExecution = determineAndCreateExeFileAndExtension(argv);
 
-  std::string result = extensionAndExecution.first +" " + argv + " -o " + extensionAndExecution.second;
-  
+  std::string result = extensionAndExecution.first + " " + argv + " -o " +
+                       extensionAndExecution.second;
+
   return result;
 }
