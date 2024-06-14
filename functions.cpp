@@ -49,17 +49,26 @@ determineAndCreateExeFileAndExtension(const std::string &argv) {
   return {whatTypeIs, executionNameFile};
 }
 
-std::string makeCommand(int argc, const std::string &argv) {
-  // At first, I want my program take only two arguments(I mean kind like test)
+void executeFile(const std::string& filename){
+  std::string execute = "./" + filename;
+  system(execute.c_str());
+}
+
+void creatingAndExecution(int argc,const std::string& filename) {
+    // At first, I want my program take only two arguments(I mean kind like test)
   if (argc != MAX_AMOUNT_OF_ARGUMENTS) {
     std::cerr << "Amount of arguments must be 2!" << std::endl;
-    return "";
+    return ;
   }
+  auto extensionAndExecution = determineAndCreateExeFileAndExtension(filename);
 
-  auto extensionAndExecution = determineAndCreateExeFileAndExtension(argv);
-
-  std::string result = extensionAndExecution.first + " " + argv + " -o " +
+  std::string command = extensionAndExecution.first + " " + filename + " -o " +
                        extensionAndExecution.second;
 
-  return result;
+  system(command.c_str());
+
+  std::cout << std::endl;
+  std::cout << "Execution file created!" << std::endl;
+
+  executeFile(extensionAndExecution.second);
 }
