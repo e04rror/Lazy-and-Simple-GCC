@@ -1,6 +1,7 @@
 #include "functions.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 std::string
@@ -36,7 +37,6 @@ std::string createExecutionFile(const std::string &argv,
 
 std::pair<std::string, std::string>
 determineAndCreateExeFileAndExtension(const std::string &argv) {
-  // Need to create exception handle
   std::string whatTypeIs = checkFileExtension(argv, C_EXTENSION);
   std::string executionNameFile;
   if (whatTypeIs.empty()) {
@@ -49,26 +49,37 @@ determineAndCreateExeFileAndExtension(const std::string &argv) {
   return {whatTypeIs, executionNameFile};
 }
 
-void executeFile(const std::string& filename){
+void executeFile(const std::string &filename) {
   std::string execute = "./" + filename;
   system(execute.c_str());
 }
 
-void creatingAndExecution(int argc,const std::string& filename) {
-    // At first, I want my program take only two arguments(I mean kind like test)
-  if (argc != MAX_AMOUNT_OF_ARGUMENTS) {
-    std::cerr << "Amount of arguments must be 2!" << std::endl;
-    return ;
+void creatingAndExecution(int argc, const std::string &filename) {
+  try {
+    if (argc != MAX_AMOUNT_OF_ARGUMENTS) {
+      throw std::invalid_argument(
+          "The number of arguments should not exceed 2");
+    }
+    auto extensionAndExecution =
+        determineAndCreateExeFileAndExtension(filename);
+
+    // Check if the file are not .c or .cpp
+    if( extensionAndExecution.first.empty()) {
+      throw std::invalid_argument("File is not C/C++ format");
+    }
+
+    std::string command = extensionAndExecution.first + " " + filename +
+                          " -o " + extensionAndExecution.second;
+
+    system(command.c_str());
+
+    std::cout << std::endl;
+    std::cout << "Execution file created!" << std::endl;
+
+    executeFile(extensionAndExecution.second);
+  } catch (const std::invalid_argument &e) {
+    std::cout << e.what() << std::endl;
+  } catch (...) {
+    std::cout << "Caught an unknown exception" << std::endl;
   }
-  auto extensionAndExecution = determineAndCreateExeFileAndExtension(filename);
-
-  std::string command = extensionAndExecution.first + " " + filename + " -o " +
-                       extensionAndExecution.second;
-
-  system(command.c_str());
-
-  std::cout << std::endl;
-  std::cout << "Execution file created!" << std::endl;
-
-  executeFile(extensionAndExecution.second);
 }
