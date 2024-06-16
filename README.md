@@ -1,2 +1,3 @@
 # Lazy-and-Simple-GCC
-/// Try to make gcc/g++ main.cpp ... command, a little bit easier 
+I thought , that make gcc much more easyier without entering any atribut except for command and cpp file. 
+So, instead of g++ main.cpp -o main and then ./main , i can enter just lg main.cpp. 
