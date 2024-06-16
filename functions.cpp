@@ -57,14 +57,13 @@ void executeFile(const std::string &filename) {
 void creatingAndExecution(int argc, const std::string &filename) {
   try {
     if (argc != MAX_AMOUNT_OF_ARGUMENTS) {
-      throw std::invalid_argument(
-          "The number of arguments should not exceed 2");
+      throw std::invalid_argument("The number of arguments should be 2");
     }
     auto extensionAndExecution =
         determineAndCreateExeFileAndExtension(filename);
 
     // Check if the file are not .c or .cpp
-    if( extensionAndExecution.first.empty()) {
+    if (extensionAndExecution.first.empty()) {
       throw std::invalid_argument("File is not C/C++ format");
     }
 
